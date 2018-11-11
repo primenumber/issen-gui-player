@@ -1,3 +1,8 @@
+# issen-gui-player
+
+sdl2quickを使ったissen用のGUI
+以下sdl2quickの説明。
+
 # sdl2quick
 
 プログラム初心者向けゲーム制作フレームワーク。
