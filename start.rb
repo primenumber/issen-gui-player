@@ -1,4 +1,4 @@
-require 'sdl2quick'
+require_relative 'sdl2quick'
 include SDL2::Q
 
 if __FILE__ == $0
