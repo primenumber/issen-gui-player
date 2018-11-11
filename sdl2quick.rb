@@ -37,10 +37,10 @@ module SDL2::Q
     @@fonts = Hash.new
     set_fontsize(32)
 
-    SDL2::Mixer.init(SDL2::Mixer::INIT_OGG|SDL2::Mixer::INIT_MP3)
-    SDL2::Mixer.open(44100)
-    @@musics = Hash.new
-    @@chunks = Hash.new
+#    SDL2::Mixer.init(SDL2::Mixer::INIT_OGG|SDL2::Mixer::INIT_MP3)
+#    SDL2::Mixer.open(44100)
+#    @@musics = Hash.new
+#    @@chunks = Hash.new
     
     clear_window
   end
