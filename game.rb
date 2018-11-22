@@ -137,6 +137,7 @@ class Board
           mj = j + dj[k] * m
           @data[mi][mj] = @turn
         end
+        break
       end
     end
   end
