@@ -13,12 +13,16 @@ class Board
   EMPTY = 0
   BLACK = 1
   WHITE = 2
+  NOTHING = 0
+  FLIPPED = 1
+  PUT = 2
   def initialize
     @data = Array.new(8).map{Array.new(8, EMPTY)}
     @data[3][3] = WHITE
     @data[3][4] = BLACK
     @data[4][3] = BLACK
     @data[4][4] = WHITE
+    @flip_prev = Array.new(8).map{Array.new(8, NOTHING)}
     @turn = BLACK
     @passed_prev = false
   end
@@ -47,15 +51,29 @@ class Board
   def move(i, j)
     false unless movable?(i, j)
     8.times do |k|
+      8.times do |l|
+        @flip_prev[k][l] = NOTHING
+      end
+    end
+    8.times do |k|
       move_dir(i, j, k)
     end
     @data[i][j] = @turn
+    @flip_prev[i][j] = PUT
     play
     @passed_prev = false
     true
   end
+  def flip_prev_mode(i, j)
+    @flip_prev[i][j]
+  end
   def pass
     return false if movable_any?
+    8.times do |k|
+      8.times do |l|
+        @flip_prev[k][l] = NOTHING
+      end
+    end
     play
     @passed_prev = true
     true
@@ -136,6 +154,7 @@ class Board
           mi = i + di[k] * m
           mj = j + dj[k] * m
           @data[mi][mj] = @turn
+          @flip_prev[mi][mj] = FLIPPED
         end
         break
       end
@@ -167,9 +186,15 @@ def draw_board(board)
     8.times do |j|
       if board.at(i, j) == Board::EMPTY then
         if board.movable?(i, j) then
-          fill_rect(X + w*j, Y + h*i, w, h, [127, 127, 0])
+          fill_rect(X + w*j, Y + h*i, w, h, [32, 160, 32])
         end
       else
+        mode = board.flip_prev_mode(i, j)
+        if mode == Board::FLIPPED then
+          fill_rect(X + w*j, Y + h*i, w, h, [127, 127, 0])
+        elsif mode == Board::PUT then
+          fill_rect(X + w*j, Y + h*i, w, h, [127, 64, 0])
+        end
         draw_disc(X + w*j, Y + h*i, board.at(i, j))
       end
     end
